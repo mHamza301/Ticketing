@@ -5,6 +5,7 @@ import { currentuserRouter } from './routes/currentuser';
 import { signoutRouter } from './routes/signout';
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
+import { errorHandler } from './middleware/errorhandler';
 
 //Initialization and Middleware
 const app = express();
@@ -15,6 +16,7 @@ app.use(signoutRouter);
 app.use(signinRouter);
 app.use(signupRouter);
 
+app.use(errorHandler);
 
 //Port initialization
 app.listen(3000, () =>{
