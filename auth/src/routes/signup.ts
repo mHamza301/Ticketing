@@ -17,7 +17,7 @@ router.post(
             .withMessage('Password must be between 4 & 15 Characters. ')
     ], 
 
-    (req: Request, res: Response) => {
+     async (req: Request, res: Response) => {
     const errors = validationResult(req);
     
     if (!errors.isEmpty()) {
