@@ -1,13 +1,15 @@
 import express from 'express';
 import 'express-async-errors';
+import mongoose from 'mongoose';
 import { json } from 'body-parser';
+
 
 import { currentuserRouter } from './routes/currentuser';
 import { signoutRouter } from './routes/signout';
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
 import { errorHandler } from './middleware/errorhandler';
-import { NotFoundError } from './errors/not-dfound-error';
+import { NotFoundError } from './errors/not-Found-Error';
 
 //Initialization and Middleware
 const app = express();
@@ -25,7 +27,20 @@ app.all('*', async () => {
 
 app.use(errorHandler);
 
-//Port initialization
-app.listen(3000, () =>{
+const connectionStartup =  async () => {
+  try {
+    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth', {
+       useNewUrlParser: true,
+       useUnifiedTopology: true,
+       useCreateIndex: true
+   });  
+   console.log('Database Connected');
+  } catch (err) {
+      console.error(err);
+  }
+    app.listen(3000, () => {
     console.log('Listening on Port 3000!!');
-});
+    });
+};
+
+connectionStartup();
