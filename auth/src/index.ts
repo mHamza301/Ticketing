@@ -2,6 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import mongoose from 'mongoose';
 import { json } from 'body-parser';
+import cookieSession from 'cookie-session';
 
 
 import { currentuserRouter } from './routes/currentuser';
@@ -13,7 +14,15 @@ import { NotFoundError } from './errors/not-Found-Error';
 
 //Initialization and Middleware
 const app = express();
+app.set('trust proxy', true);
 app.use(json());
+app.use(  
+  cookieSession({
+    signed: false,
+    secure: true
+  })
+);
+
 
 app.use(currentuserRouter);
 app.use(signoutRouter);
@@ -28,6 +37,10 @@ app.all('*', async () => {
 app.use(errorHandler);
 
 const connectionStartup =  async () => {
+  if(!process.env.JWT_KEY) {
+    throw new Error('There is a problem with Tokens!')
+  }
+  
   try {
     await mongoose.connect('mongodb://auth-mongo-srv:27017/auth', {
        useNewUrlParser: true,
