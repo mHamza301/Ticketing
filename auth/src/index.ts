@@ -9,7 +9,7 @@ import { currentuserRouter } from './routes/currentuser';
 import { signoutRouter } from './routes/signout';
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
-import { errorHandler } from './middleware/errorhandler';
+import { errorHandler } from './middleware/error-handler';
 import { NotFoundError } from './errors/not-Found-Error';
 
 //Initialization and Middleware
@@ -19,7 +19,8 @@ app.use(json());
 app.use(  
   cookieSession({
     signed: false,
-    secure: true
+    secure: false // Ingress Nginx not properly configured so, cookie 
+                  // is website is not being loaded for https. 
   })
 );
 
