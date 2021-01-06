@@ -1,4 +1,6 @@
 node_modules
 infra
 skaffold.yaml
-auth/Dockerfile
+Dockerfile
+Dockerfile
+client/.next

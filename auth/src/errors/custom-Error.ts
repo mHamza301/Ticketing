@@ -3,6 +3,8 @@ export abstract class CustomError extends Error {
 
     constructor(message: string) {
         super(message);
+
+        //Only necessary if extending Typescript built-in class
         Object.setPrototypeOf(this, CustomError.prototype);
     }
 
