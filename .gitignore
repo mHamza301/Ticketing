@@ -4,3 +4,5 @@ skaffold.yaml
 Dockerfile
 Dockerfile
 client/.next
+common/node_modules
+common/build
