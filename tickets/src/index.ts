@@ -3,13 +3,12 @@ import { app } from './app';
 
 const connectionStartup =  async () => {
   if(!process.env.JWT_KEY) {
-    throw new Error('There is a problem with Tokens!')
+    throw new Error('There is a problem with Tokens!');
   }
 
   if(!process.env.MONGO_URI) {
     throw new Error('There is a problem with Database Connection!');
   }
-  
   
   try {
     await mongoose.connect(process.env.MONGO_URI, {
