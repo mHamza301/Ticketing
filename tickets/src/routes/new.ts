@@ -1,10 +1,29 @@
 import express, { Request, Response, response } from 'express';
-import { requireAuth } from '@brokerhs/common';
+import { body } from 'express-validator';
+import { requireAuth, validateRequest } from '@brokerhs/common';
+import { Ticket } from '../models/ticket';
 
 const router = express.Router();
 
-router.post('/api/tickets', requireAuth,  (req: Request, res: Response) => {
-    res.sendStatus(200);
+router.post(
+    '/api/tickets', 
+    requireAuth, 
+[
+    body('title').not().isEmpty().withMessage('Title is Mandatory'),
+    body('price').not().isEmpty().isFloat({ gt: 0 }).withMessage('Price Should be greater than 0'),
+],
+validateRequest,
+ async (req: Request, res: Response) => {
+    const { title, price } = req.body;
+
+    const ticket = Ticket.build({
+        title,
+        price,
+        userId: req.currentUser!.id
+    });
+    await ticket.save();
+
+    res.status(201).send(ticket);
 });
 
 export { router as createTicketRouter };
