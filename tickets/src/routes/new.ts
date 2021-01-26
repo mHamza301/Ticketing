@@ -10,7 +10,7 @@ router.post(
     requireAuth, 
 [
     body('title').not().isEmpty().withMessage('Title is Mandatory'),
-    body('price').not().isEmpty().isFloat({ gt: 0 }).withMessage('Price Should be greater than 0'),
+    body('price').not().isEmpty().isFloat({ gt: 0 }).withMessage('Price should be greater than 0'),
 ],
 validateRequest,
  async (req: Request, res: Response) => {

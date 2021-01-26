@@ -45,7 +45,7 @@ global.authHelper = () => {
 
     //Build a JWT payload => { id, email }
     const payload = {
-        id: 'test1234',
+        id: new mongoose.Types.ObjectId().toHexString(),
         email: 'test@testy.com'
     };
 
