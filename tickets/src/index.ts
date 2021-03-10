@@ -10,9 +10,25 @@ const connectionStartup =  async () => {
   if(!process.env.MONGO_URI) {
     throw new Error('There is a problem with Database Connection!');
   }
+
+  if(!process.env.NATS_CLUSTER_ID) {
+    throw new Error('NATS CLUSTER ID must be defined!');
+  }
+
+  if(!process.env.NATS_CLIENT_ID) {
+    throw new Error('NATS CLIENT ID must be defined!');
+  }
+
+  if(!process.env.NATS_URL) {
+    throw new Error('NATS URL must be defined!');
+  }
   
   try {
-    await natsWrapper.connect('ticketing', 'acgg12', 'http://nats-srv:4222');
+    await natsWrapper.connect(
+      process.env.NATS_CLUSTER_ID,
+      process.env.NATS_CLIENT_ID,
+      process.env.NATS_URL
+    );
 
     natsWrapper.client.on('close', () => {
       console.log('NATS connection closed');
